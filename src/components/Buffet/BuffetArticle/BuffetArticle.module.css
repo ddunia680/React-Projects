@@ -1,0 +1,46 @@
+.Rice {
+    background-color: white;
+    height: 90px;
+    width: 150px;
+    margin: 0 10px;
+    border-radius: 0 0 30% 30%;
+    box-shadow: 10px 4px 1px 5px;
+    border-style: none;
+}
+.Meat {
+    height: 90px;
+    width: 150px;
+    margin: 0 10px;
+    border-radius: 0 0 30% 30%;
+    box-shadow: 10px 4px 1px 5px;
+    border-style: none;
+    background-color: rgb(103, 52, 16);
+}
+.Fish {
+    height: 90px;
+    width: 150px;
+    margin: 0 10px;
+    border-radius: 0 0 30% 30%;
+    box-shadow: 10px 4px 1px 5px;
+    border-style: none;
+    background-color: rgb(151, 148, 148);
+}
+.Ships {
+    height: 90px;
+    width: 150px;
+    margin: 0 10px;
+    border-radius: 0 0 30% 30%;
+    box-shadow: 10px 4px 1px 5px;
+    border-style: none;
+    background-color: rgb(227, 159, 30);
+}
+
+.Fruits {
+    height: 90px;
+    width: 150px;
+    margin: 0 10px;
+    border-radius: 0 0 30% 30%;
+    box-shadow: 10px 4px 1px 5px;
+    border-style: none;
+    background-color: rgb(184, 71, 71);
+}

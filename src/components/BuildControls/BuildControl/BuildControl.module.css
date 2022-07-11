@@ -1,0 +1,56 @@
+.articleControl {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    margin: 5px 0;
+}
+
+.articleControl label {
+    width: 100px;
+    font-weight: bold;
+}
+
+.articleControl button {
+    width: 100px;
+    height: 40px;
+    margin: 0 5px;
+
+}
+
+.add {
+    background-color: rgb(100, 93, 93);
+    color: white;
+    border-style: none;
+}
+.add:hover{
+    background-color: rgb(51, 47, 47);
+
+}
+.remove {
+    background-color: rgb(181, 174, 174);
+    border-style: none;
+}
+.remove:hover {
+    background-color: rgb(209, 200, 200);
+}
+
+@media (max-width: 500px) {
+
+    .articleControl {
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+        margin: 3px 0;
+    }
+    
+    .articleControl label {
+        width: 80px;
+    }
+    
+    .articleControl button {
+        width: 80px;
+        height: 35px;
+        margin: 0 3px;
+    
+    }
+}

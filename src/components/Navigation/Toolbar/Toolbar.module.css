@@ -1,0 +1,45 @@
+.headerC {
+    height: 56px;
+    width: 100%;
+    background-color: rosybrown;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 90;
+
+}
+
+.Logo {
+    height: 90%;
+    width: 100px;
+}
+.containerToggle {
+    height: 90%;
+    width: 100px;
+    display: none;
+}
+
+@media (max-width: 500px) {
+    .headerC nav {
+        display: none;
+    }
+
+    .Logo {
+        height: 90%;
+        width: 70px;
+    }
+
+    .menu {
+        display: none;
+    }
+    .containerToggle {
+        height: 90;
+        width: 70px;
+        display: block;
+    }
+}

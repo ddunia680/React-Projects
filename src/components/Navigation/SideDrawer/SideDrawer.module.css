@@ -1,0 +1,41 @@
+.sideDrawer {
+    background-color: white;
+    height: 100vh;
+    width: 210px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    padding: 10px;
+    display: none;
+    transition: transform 0.3s ease-out;
+}
+
+.Logo {
+    height: 10%;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.sideDrawer nav {
+    display: flex;
+    flex-flow: column;
+
+}
+
+.Open {
+    transform: translateX(0);
+}
+
+.Close {
+    transform: translateX(-100%);
+}
+
+@media (max-width: 500px) {
+    .sideDrawer {
+        display: block;
+    }
+    .sideDrawer nav {
+        width: 100%;
+    }
+}

@@ -1,0 +1,46 @@
+.modal {
+    position: fixed;
+    z-index: 500;
+    background-color: white;
+    width: 50%;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px black;
+    padding: 16px;
+    left: 20%;
+    top: 30%;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-out;
+}
+
+@media (min-width: 600px) {
+    .Modal {
+        width: 500px;
+        left: calc(50% - 250px);
+    }
+}
+
+.Danger {
+    color: rgb(174, 52, 36);
+    border-style: none;
+    margin: 3px 10px;
+}
+
+.Continue {
+    color: rgb(132, 195, 38);
+    border-style: none;
+    margin: 3px 10px;
+}
+
+ul {
+    list-style: none;
+}
+
+@media (max-width: 500px) {
+    .modal {
+        position: fixed;
+        width: 80%;
+        left: 10%;
+        top: 25%;
+        
+    }
+}
