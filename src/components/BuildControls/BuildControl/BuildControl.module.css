@@ -35,7 +35,7 @@
     background-color: rgb(182, 161, 161);
 }
 .remove:disabled {
-    color: rgb(113, 100, 100);
+    color: rgb(93, 83, 83);
 }
 
 @media (max-width: 500px) {
