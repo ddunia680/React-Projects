@@ -35,7 +35,6 @@
     background-color: rgb(182, 161, 161);
 }
 .remove:disabled {
-    background-color: rgb(116, 101, 101);
     color: rgb(113, 100, 100);
 }
 
