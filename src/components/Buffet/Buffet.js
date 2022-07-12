@@ -16,7 +16,7 @@ const buffet = (props) => {
     }, []);
 
     if(transformedArticles.length === 0) {
-        transformedArticles = <p><strong>Add an article</strong></p>
+        transformedArticles = <p className={classes.defText}>Add an article</p>
     }
     console.log(transformedArticles);
 

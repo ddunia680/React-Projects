@@ -18,7 +18,7 @@
 }
 
 .add {
-    background-color: rgb(100, 93, 93);
+    background-color: rgb(144, 58, 58);
     color: white;
     border-style: none;
 }
@@ -27,11 +27,11 @@
 
 }
 .remove {
-    background-color: rgb(181, 174, 174);
+    background-color: rgb(141, 92, 92);
     border-style: none;
 }
 .remove:hover {
-    background-color: rgb(209, 200, 200);
+    background-color: rgb(182, 161, 161);
 }
 
 @media (max-width: 500px) {
@@ -39,18 +39,20 @@
     .articleControl {
         display: flex;
         justify-content: space-between;
-        width: 300px;
+        width: 200px;
         margin: 3px 0;
     }
     
     .articleControl label {
-        width: 80px;
+        width: 60px;
+        font-size: small;
     }
     
     .articleControl button {
-        width: 80px;
-        height: 35px;
+        width: 60px;
+        height: 30px;
         margin: 0 3px;
+        font-size: small;
     
     }
 }

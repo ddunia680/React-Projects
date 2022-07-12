@@ -13,7 +13,7 @@ const controls = [
 const buildControls = (props) => {
     return (
         <div className={classes.BuffetBuilder}>
-            <p>Total Price: <strong>{props.amountOfPurchase} $</strong></p>
+            <p className={classes.amount}>Total Price: <strong>{props.amountOfPurchase} $</strong></p>
             {controls.map(ctrl => {
                 return (
                     <BuildControl

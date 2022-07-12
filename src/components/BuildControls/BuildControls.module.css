@@ -1,5 +1,5 @@
 .BuffetBuilder {
-    background-color: rgb(152, 145, 145);
+    background-color: rgb(165, 107, 107);
     width: 100%;
     height: 400px;
     position: fixed;
@@ -11,29 +11,29 @@
 
 
 .OrderButton {
-    background-color: #DAD735;
+    background-color: #a94b15;
     outline: none;
     cursor: pointer;
-    border: 1px solid #966909;
-    color: #966909;
+    border: 1px solid #a94b15;
+    color: black;
     font-family: inherit;
-    font-size: 1.2em;
+    font-size: 1.1em;
     padding: 15px 30px;
-    box-shadow: 2px 2px 2px #966909;
+    box-shadow: 2px 2px 2px #a94b15;
     margin: 10px;
 }
 
 .OrderButton:hover, .OrderButton:active {
     background-color: #A0DB41;
     border: 1px solid #966909;
-    color: #966909;
+    color: black;
 }
 
 .OrderButton:disabled {
-    background-color: #C7C6C6;
+    background-color: rosybrown;
     cursor: not-allowed;
     border: 1px solid #ccc;
-    color: #888888;
+    color: #5a5454;
 }
 
 .OrderButton:not(:disabled) {
@@ -54,6 +54,10 @@
 
 @media (max-width: 500px) {
     .BuffetBuilder {
-        height: 330px;
+        height: 300px;
     }
+    .OrderButton {
+        font-size: 1em;
+    }
+    
 }
