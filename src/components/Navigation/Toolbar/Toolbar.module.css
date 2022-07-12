@@ -25,9 +25,11 @@
 }
 
 @media (max-width: 500px) {
+    .headerC {
+        height: 45px;
+    }
     .headerC nav {
         display: none;
-        height: 45px;
     }
 
     .Logo {
