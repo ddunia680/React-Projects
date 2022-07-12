@@ -25,7 +25,7 @@ const modal = (props) => {
             <ul>
                {articles}
             </ul>
-            <p><strong>Total Price: {props.totalPrice}</strong></p>
+            <p><strong>Total Price: {props.totalPrice} $</strong></p>
             <p>Continue to Checkout?</p>
             <div>
                 <button 
