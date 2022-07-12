@@ -27,7 +27,7 @@
 @media (max-width: 500px) {
     .headerC nav {
         display: none;
-        height: 50px;
+        height: 45px;
     }
 
     .Logo {
