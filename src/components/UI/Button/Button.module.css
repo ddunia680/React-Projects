@@ -1,0 +1,28 @@
+.Button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.Button:first-of-type {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.Danger {
+    color: rgb(174, 52, 36);
+    border-style: none;
+    margin: 3px 10px;
+}
+
+.Continue {
+    color: rgb(132, 195, 38);
+    border-style: none;
+    margin: 3px 10px;
+}

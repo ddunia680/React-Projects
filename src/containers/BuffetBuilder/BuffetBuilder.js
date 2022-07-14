@@ -4,7 +4,9 @@ import Buffet from "../../components/Buffet/Buffet";
 import BuildControls from "../../components/BuildControls/BuildControls";
 import Aux from "../hoc/Auxiliary";
 import Modal from "../../components/UI/Modal/Modal";
-// import Backdrop from "../../components/UI/Backdrop/Backdrop";
+import OrderSummary from "../../components/Buffet/OrderSummary/OrderSummary";
+import axios from "../../axios-orders";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const ARTICLES_PRICES = {
     rice:12,
@@ -25,7 +27,12 @@ class BuffetBuilder extends Component{
         },
         AmountPurchase: 4,
         cannotBeBought: false,
-        modalShown: false
+        modalShown: false,
+        loading: false
+    }
+
+    componentDidMount = () => {
+        axios.get()
     }
 
     updatePurchasable(articles){
@@ -76,22 +83,59 @@ class BuffetBuilder extends Component{
     }
 
     sendOrder = () => {
-        alert('Order sent!');
-        this.setState({modalShown: false});
+        // alert('Order sent!');
+        this.setState({loading: true});
+        const order = {
+            articles: this.state.articles,
+            price: this.state.AmountPurchase,
+            customer: {
+                name: 'Dunia',
+                address: {
+                    street: 'Lukuli',
+                    zipCode: '39482',
+                    country: 'Uganda'
+                },
+                emailAddress: 'test@test.com'
+            },
+            deliveryMethod: 'fastest'
+        }
+
+        axios.post('/orders.json', order)
+        .then(response => {
+            this.setState({loading: false, modalShown: false});
+        })
+        .catch(error => {
+            this.setState({loading: false, modalShown: false});
+            console.log(error);
+        });
+
+       
+
     }
 
     render() {
+        let modalInner = (
+            <OrderSummary
+                articles={this.state.articles} 
+                totalPrice={this.state.AmountPurchase}
+                closeModal={this.closeModal}
+                sendOrder={this.sendOrder}
+            />
+        );
+        if(this.state.loading) {
+            modalInner = <Spinner/>
+        }
+
         console.log(this.state.cannotBeBought);
         return (
             <Aux>
                 {this.state.modalShown ? 
                         <Modal 
-                        articles={this.state.articles} 
-                        totalPrice={this.state.AmountPurchase}
-                        show={this.state.modalShown}
-                        closeModal={this.closeModal}
-                        sendOrder={this.sendOrder}
-                        />
+                            show={this.state.modalShown}
+                            clicked={this.closeModal}>
+                                {modalInner}
+                        </Modal>
+                        
                 : null}
                
                 <Buffet articles={this.state.articles}/>
