@@ -7,6 +7,7 @@ import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Buffet/OrderSummary/OrderSummary";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler";
 
 const ARTICLES_PRICES = {
     rice:12,
@@ -18,21 +19,22 @@ const ARTICLES_PRICES = {
 
 class BuffetBuilder extends Component{
     state = {
-        articles: {
-            rice:0,
-            meat: 0,
-            fish: 0,
-            ships: 0,
-            fruits: 0
-        },
+        articles: null,
         AmountPurchase: 4,
         cannotBeBought: false,
         modalShown: false,
-        loading: false
+        loading: false,
+        error: false
     }
 
     componentDidMount = () => {
-        axios.get()
+        axios.get('/articles.json')
+        .then(response => {
+            this.setState({articles: response.data, spin: false});
+        }).catch(error => {
+            this.setState({error: true})
+        });
+        
     }
 
     updatePurchasable(articles){
@@ -100,7 +102,7 @@ class BuffetBuilder extends Component{
             deliveryMethod: 'fastest'
         }
 
-        axios.post('/orders.json', order)
+        axios.post('/orders', order)
         .then(response => {
             this.setState({loading: false, modalShown: false});
         })
@@ -109,12 +111,33 @@ class BuffetBuilder extends Component{
             console.log(error);
         });
 
-       
-
     }
 
+   
+
     render() {
-        let modalInner = (
+        let modalInner = null;
+
+        let buffet = 
+            this.state.error? 
+                <p style={{marginTop: '10vh'}}>The articles cannot be loaded</p> : 
+                <Spinner/>
+
+        if(this.state.articles) {
+        buffet = (
+            <Aux>
+        <Buffet articles={this.state.articles}/>
+        <BuildControls
+            addArticle={this.addArticleHandler}
+            removeArticle={this.removeArticleHandler}
+            articles={this.state.articles}
+            amountOfPurchase={this.state.AmountPurchase}
+            cannotBeBought={this.state.cannotBeBought}
+            order={this.showModal}
+        /></Aux>)
+
+        
+        modalInner = (
             <OrderSummary
                 articles={this.state.articles} 
                 totalPrice={this.state.AmountPurchase}
@@ -122,9 +145,12 @@ class BuffetBuilder extends Component{
                 sendOrder={this.sendOrder}
             />
         );
+        }
+        
         if(this.state.loading) {
             modalInner = <Spinner/>
         }
+
 
         console.log(this.state.cannotBeBought);
         return (
@@ -137,20 +163,11 @@ class BuffetBuilder extends Component{
                         </Modal>
                         
                 : null}
-               
-                <Buffet articles={this.state.articles}/>
-                <BuildControls
-                    addArticle={this.addArticleHandler}
-                    removeArticle={this.removeArticleHandler}
-                    articles={this.state.articles}
-                    amountOfPurchase={this.state.AmountPurchase}
-                    cannotBeBought={this.state.cannotBeBought}
-                    order={this.showModal}
-                />
+               {buffet}
             </Aux>
         );
     }
 
 }
 
-export default BuffetBuilder;
+export default withErrorHandler(BuffetBuilder, axios) ;
