@@ -3,6 +3,8 @@ import Aux from "../Auxiliary";
 import Toolbar from "../../../components/Navigation/Toolbar/Toolbar";
 import SideDrawer from "../../../components/Navigation/SideDrawer/SideDrawer";
 
+import classes from './Layout.module.css';
+
 class Layout extends Component{
     state = {
         showSideDrawer: false
@@ -24,7 +26,7 @@ class Layout extends Component{
                     remove={this.RemoveSideDrawerHandler}/>: null}
                     
                 <Toolbar SideShow={this.showSideDrawerHandler}/>
-                <main>
+                <main className={classes.Content}>
                     {this.props.children}
                 </main>
             </Aux>

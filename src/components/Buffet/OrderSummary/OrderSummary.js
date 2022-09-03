@@ -7,7 +7,6 @@ const orderSummary = (props) => {
     .map(art => {
         return <li key={art}>{art}: {props.articles[art]}</li>
     });
-    console.log(articles);
     return (
         <Aux>
            

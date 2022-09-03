@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 // import classes from './BuffetBuilder.module.css';
 import Buffet from "../../components/Buffet/Buffet";
 import BuildControls from "../../components/BuildControls/BuildControls";
@@ -8,6 +8,7 @@ import OrderSummary from "../../components/Buffet/OrderSummary/OrderSummary";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler";
+import { useNavigate } from "react-router";
 
 const ARTICLES_PRICES = {
     rice:12,
@@ -17,148 +18,123 @@ const ARTICLES_PRICES = {
     fruits: 8
 }
 
-class BuffetBuilder extends Component{
-    state = {
-        articles: null,
-        AmountPurchase: 4,
-        cannotBeBought: false,
-        modalShown: false,
-        loading: false,
-        error: false
-    }
+function BuffetBuilder() {
+    let [articles, setArticles] = useState(null);
+    let [AmountPurchase, setAmountPurchase] = useState(4);
+    let [cannotBeBought, setCannotBeBought] = useState(false);
+    let [modalShown, setModalShown] = useState(false);
+    let [loading, setLoading] = useState(false);
+    let [error, setError] = useState(false);
+    let [Spin, setSpin] = useState(true);
 
-    componentDidMount = () => {
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
         axios.get('/articles.json')
         .then(response => {
-            this.setState({articles: response.data, spin: false});
+            setArticles(response.data);
+            setSpin(false);
         }).catch(error => {
-            this.setState({error: true})
+            setError(true);
         });
         
-    }
+    }, [])
 
-    updatePurchasable(articles){
-        const sum = Object.keys(articles)
+    const updatePurchasable = (arts) => {
+        const sum = Object.keys(arts)
             .map(el => {
-                return articles[el]
+                return arts[el]
             }).reduce((sum, el) => {
                 return sum + el
             },0);  
-        this.setState({cannotBeBought: sum > 0})
+        setCannotBeBought(sum > 0);
     }
 
-    addArticleHandler = (type) => {
-        const oldCount = this.state.articles[type];
+    const addArticleHandler = (type) => {
+        const oldCount = articles[type];
         const updatedCount = oldCount + 1;
         const updatedArticles = {
-            ...this.state.articles
+            ...articles
         }
 
         updatedArticles[type] = updatedCount;
-        this.setState({articles: updatedArticles});
-        const amount = this.state.AmountPurchase;
-        this.setState({AmountPurchase: amount + ARTICLES_PRICES[type]});
-        this.setState({cannotBeBought: false});
-        this.updatePurchasable(updatedArticles);
+        setArticles(updatedArticles);
+        const amount = AmountPurchase;
+        setAmountPurchase(amount + ARTICLES_PRICES[type]);
+        setCannotBeBought(false);
+        updatePurchasable(updatedArticles);
     }
 
-    removeArticleHandler = (type) => {
-        const oldCount = this.state.articles[type];
+    const removeArticleHandler = (type) => {
+        const oldCount = articles[type];
         const updatedCount = oldCount - 1;
         const updatedArticles = {
-            ...this.state.articles
+            ...articles
         }
 
         updatedArticles[type] = updatedCount;
-        this.setState({articles: updatedArticles});
-        const amount = this.state.AmountPurchase;
-        this.setState({AmountPurchase: amount - ARTICLES_PRICES[type]});
-        this.updatePurchasable(updatedArticles);
+        setArticles(updatedArticles);
+        const amount = AmountPurchase;
+        setAmountPurchase(amount - ARTICLES_PRICES[type]);
+        updatePurchasable(updatedArticles);
     }
     
-    showModal = () => {
-        this.setState({modalShown: true});
+    const showModal = () => {
+        setModalShown(true);
     }
     
-    closeModal = () => {
-        this.setState({modalShown: false})
+    const closeModal = () => {
+        setModalShown(false);
     }
 
-    sendOrder = () => {
-        // alert('Order sent!');
-        this.setState({loading: true});
-        const order = {
-            articles: this.state.articles,
-            price: this.state.AmountPurchase,
-            customer: {
-                name: 'Dunia',
-                address: {
-                    street: 'Lukuli',
-                    zipCode: '39482',
-                    country: 'Uganda'
-                },
-                emailAddress: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
-        }
-
-        axios.post('/orders.json', order)
-        .then(response => {
-            this.setState({loading: false, modalShown: false});
-        })
-        .catch(error => {
-            this.setState({loading: false, modalShown: false});
-            console.log(error);
-        });
-
+    const sendOrder = () => {
+        // // alert('Order sent!');
+        navigate('/checkout', {state: {arts:{...articles}, AmountPurchase}})
     }
 
    
-
-    render() {
         let modalInner = null;
 
         let buffet = 
-            this.state.error? 
+            error? 
                 <p style={{marginTop: '10vh'}}>The articles cannot be loaded</p> : 
                 <Spinner/>
 
-        if(this.state.articles) {
+        if(articles) {
         buffet = (
             <Aux>
-        <Buffet articles={this.state.articles}/>
+        <Buffet articles={articles}/>
         <BuildControls
-            addArticle={this.addArticleHandler}
-            removeArticle={this.removeArticleHandler}
-            articles={this.state.articles}
-            amountOfPurchase={this.state.AmountPurchase}
-            cannotBeBought={this.state.cannotBeBought}
-            order={this.showModal}
+            addArticle={addArticleHandler}
+            removeArticle={removeArticleHandler}
+            articles={articles}
+            amountOfPurchase={AmountPurchase}
+            cannotBeBought={cannotBeBought}
+            order={showModal}
         /></Aux>)
 
         
         modalInner = (
             <OrderSummary
-                articles={this.state.articles} 
-                totalPrice={this.state.AmountPurchase}
-                closeModal={this.closeModal}
-                sendOrder={this.sendOrder}
+                articles={articles} 
+                totalPrice={AmountPurchase}
+                closeModal={closeModal}
+                sendOrder={sendOrder}
             />
         );
         }
         
-        if(this.state.loading) {
+        if(loading) {
             modalInner = <Spinner/>
         }
 
-
-        console.log(this.state.cannotBeBought);
         return (
             <Aux>
-                {this.state.modalShown ? 
+                {modalShown ? 
                         <Modal 
-                            show={this.state.modalShown}
-                            clicked={this.closeModal}>
+                            show={modalShown}
+                            clicked={closeModal}>
                                 {modalInner}
                         </Modal>
                         
@@ -166,8 +142,6 @@ class BuffetBuilder extends Component{
                {buffet}
             </Aux>
         );
-    }
-
 }
 
 export default withErrorHandler(BuffetBuilder, axios) ;
