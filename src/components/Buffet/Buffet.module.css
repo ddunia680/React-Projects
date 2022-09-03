@@ -49,13 +49,13 @@
 
 @media (max-width: 500px) {
     .buffet {
-        height: 250px;
+        height: 190px;
     }
     .content {
         display: flex;
         align-items: center;
-        margin-top: 100px;
-        height: 30%;
+        margin-top: 50px;
+        height: 40%;
     
     }
     .content div {
