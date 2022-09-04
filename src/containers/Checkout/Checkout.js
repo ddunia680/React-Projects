@@ -14,7 +14,7 @@ const Checkout = () => {
     useEffect(() => {
         const arts ={...loc.state.arts};
         setArticles(arts);
-    },[])
+    },[loc.state.arts])
 
     const cancelBtnHandler = () => {
         navigate('/');

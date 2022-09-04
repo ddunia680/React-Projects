@@ -11,27 +11,28 @@ import classes from './ContactData.module.css';
 function ContactData() {
     let [articles, setArticles] = useState(null);
     let [AmountPurchase, setAmountPurchase] = useState(4);
-    let [cannotBeBought, setCannotBeBought] = useState(false);
+    // let [cannotBeBought, setCannotBeBought] = useState(false);
     let [loading, setLoading] = useState(false);
-    let [error, setError] = useState(false);
+    // let [error, setError] = useState(false);
 
-    let [name, setName] = useState('');
-    let [email, setEmail] = useState('');
-    let [address, setAddress] = useState({
-        street: '',
-        postalCode: ''
-    });
+    // let [name, setName] = useState('');
+    // let [email, setEmail] = useState('');
+    // let [address, setAddress] = useState({
+    //     street: '',
+    //     postalCode: ''
+    // });
 
     let loc = useLocation();
     let navigate = useNavigate();
-    let arts = {...loc.state.arts};
+    
     let price = +loc.state.AmountPurchase;
 
 
     useEffect(() => {
+        let arts = {...loc.state.arts};
         setArticles(arts);
         setAmountPurchase(price);
-    }, [])
+    }, [loc.state.arts, price])
 
 
     const sendDataToBack = (event) => {
