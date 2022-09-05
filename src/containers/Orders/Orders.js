@@ -41,14 +41,19 @@ class Orders extends Component {
     // }
 
     render() {
+        let ToDisplay = <Spinner/>
+        if(!this.state.loading) {
+            ToDisplay =
+             this.state.orders.map(order => (
+                <Order 
+                    key={order.id}
+                    articles={order.articles}
+                    price={order.price.toFixed(2)} />
+            ))
+        }
          return (
             <div>
-                {this.state.orders.map(order => (
-                    <Order 
-                        key={order.id}
-                        articles={order.articles}
-                        price={order.price.toFixed(2)} />
-                ))}
+                {ToDisplay}
             </div>
         );
     }
