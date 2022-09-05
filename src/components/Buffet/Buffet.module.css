@@ -49,7 +49,7 @@
 
 @media (max-width: 500px) {
     .buffet {
-        height: 190px;
+        height: 35vh;
     }
     .content {
         display: flex;
