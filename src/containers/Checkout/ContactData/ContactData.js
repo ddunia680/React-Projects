@@ -94,10 +94,11 @@ function ContactData() {
             },
             Validation: {},
             value: 'fastest',
-            valid: false,
+            valid: true,
             touched: false
         },
-    })
+    });
+    let [formIsValid, setFormValidity] = useState(false);
     let [articles, setArticles] = useState(null);
     let [AmountPurchase, setAmountPurchase] = useState(4);
     // let [cannotBeBought, setCannotBeBought] = useState(false);
@@ -192,6 +193,12 @@ function ContactData() {
 
         updatedOrders[inputIdentifier] = updatedFormElement;
 
+        let formValid = true;
+        for(inputIdentifier in updatedOrders) {
+            formValid = updatedOrders[inputIdentifier].valid && formValid
+        }
+        console.log(formValid);
+        setFormValidity(formValid);
         setOrderForm(updatedOrders);
     }
 
@@ -213,7 +220,7 @@ function ContactData() {
                         
                 ))}
 
-                <Button btnType='Continue' >ORDER</Button>
+                <Button btnType='Continue' isValid={!formIsValid}>ORDER</Button>
             </form>
         )
     }
