@@ -26,7 +26,7 @@ const Checkout = () => {
 
     return (
         <div>
-            <h1>Hope your guesses will enjoy!</h1>
+            <h1>Hope your guests will enjoy!</h1>
             {articles? <Buffet articles={articles}/> : null}
             <Button btnType='Danger' clicked={cancelBtnHandler}>CANCEL</Button>
             <Button btnType='Continue' clicked={continueBtnHandler}>CONTINUE</Button>

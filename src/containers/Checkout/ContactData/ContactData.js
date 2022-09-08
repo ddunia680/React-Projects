@@ -7,9 +7,97 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 
 
 import classes from './ContactData.module.css';
+import Input from '../../../components/UI/Input/Input';
+import { element } from 'prop-types';
 
 
 function ContactData() {
+    let [orderForm, setOrderForm] = useState({
+        name: {
+            elementType: 'input',
+            elementConfig: {
+                type: 'text',
+                placeholder: 'Your Name' 
+            },
+            Validation: {
+                required: true,
+                minLength: 3
+            },
+            value: '',
+            valid: false,
+            touched: false
+            
+        },
+        street: {
+            elementType: 'input',
+            elementConfig: {
+                type: 'text',
+                placeholder: 'Street' 
+            },
+            Validation: {
+                required: true,
+                minLength: 3
+            },
+            value: '',
+            valid: false,
+            touched: false
+        },
+        zipCode: {
+            elementType: 'input',
+            elementConfig: {
+                type: 'text',
+                placeholder: 'Zip Code' 
+            },
+            Validation: {
+                required: true,
+                minLength: 3
+            },
+            value: '',
+            valid: false,
+            touched: false
+        },
+        country: {
+            elementType: 'input',
+            elementConfig: {
+                type: 'text',
+                placeholder: 'Country' 
+            },
+            Validation: {
+                required: true,
+                minLength: 3
+            },
+            value: '',
+            valid: false,
+            touched: false
+        },
+        email: {
+            elementType: 'input',
+            elementConfig: {
+                type: 'email',
+                placeholder: 'Your E-Mail' 
+            },
+            Validation: {
+                required: true,
+                minLength: 3
+            },
+            value: '',
+            valid: false,
+            touched: false
+        },
+        deliveryMethod: {
+            elementType: 'select',
+            elementConfig: {
+                options: [
+                    {value: 'fastest', displayValue: 'Fastest' },
+                    {value: 'cheapest', displayValue: 'Cheapest'}
+                ] 
+            },
+            Validation: {},
+            value: 'fastest',
+            valid: false,
+            touched: false
+        },
+    })
     let [articles, setArticles] = useState(null);
     let [AmountPurchase, setAmountPurchase] = useState(4);
     // let [cannotBeBought, setCannotBeBought] = useState(false);
@@ -40,19 +128,20 @@ function ContactData() {
         event.preventDefault();
         
          setLoading(true);
+
+         let customerInfo = {};
+         for(let info in orderForm) {
+                customerInfo[info] = orderForm[info].value
+         }
+
+        //  console.log(customerInfo);
+
         const order = {
             articles: articles,
             price: AmountPurchase,
-            customer: {
-                name: 'Dunia',
-                address: {
-                    street: 'Lukuli',
-                    zipCode: '39482',
-                    country: 'Uganda'
-                },
-                emailAddress: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
+            orderData: {
+                ...customerInfo
+            } 
         }
 
         axios.post('/orders.json', order)
@@ -65,16 +154,66 @@ function ContactData() {
         });
     }
 
+    const checkValidity = (value, rules) => {
+        let isValid = true;
+
+        if(rules.required ) {
+            isValid = value.trim() !== '';
+        }
+
+        if(rules.minLength) {
+            isValid = value.length >= rules.minLength;
+        }
+
+        return isValid;
+    }
+
+    let formElementArray = [];
+    for(let key in orderForm) {
+        formElementArray.push({
+            id: key,
+            config: orderForm[key]
+        })
+    }
+
+    const onChangeHandler = (event, inputIdentifier) => {
+        const updatedOrders = {
+            ...orderForm
+        }
+
+        const updatedFormElement = {
+            ...updatedOrders[inputIdentifier] 
+        };
+
+        const updatedValue = event.target.value;
+        updatedFormElement.value = updatedValue;
+        updatedFormElement.valid = checkValidity(updatedValue, updatedFormElement.Validation);
+        updatedFormElement.touched = true;
+
+        updatedOrders[inputIdentifier] = updatedFormElement;
+
+        setOrderForm(updatedOrders);
+    }
+
+
+
     let form = <Spinner/>
     if(!loading) {
         form = (
-            <form>
-                <input type='text' name='name' placeholder='enter your name'/>
-                <input type='email' name='Email' placeholder='enter your email'/>
-                <input type='text' name='Street' placeholder='Your street name'/>
-                <input type='text' name='Postal' placeholder='Your postal code'/>
-                <br/>
-                <Button btnType='Continue' clicked={sendDataToBack}>ORDER</Button>
+            <form onSubmit={sendDataToBack}>
+                {formElementArray.map(element => (
+                    <Input 
+                        key={element.id}
+                        elementType={element.config.elementType}
+                        elementConfig={element.config.elementConfig}
+                        value={element.config.value}
+                        isValid={element.config.valid}
+                        touched={element.config.touched}
+                        changed={(event) => onChangeHandler(event, element.id)}/>
+                        
+                ))}
+
+                <Button btnType='Continue' >ORDER</Button>
             </form>
         )
     }
