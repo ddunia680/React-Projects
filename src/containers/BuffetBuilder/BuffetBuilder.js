@@ -9,6 +9,9 @@ import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { ADDARTICLES } from "../../store/reducers/articles";
+import { ADDTOTALPRICE } from "../../store/reducers/totalPrice";
 
 const ARTICLES_PRICES = {
     rice:12,
@@ -19,8 +22,12 @@ const ARTICLES_PRICES = {
 }
 
 function BuffetBuilder() {
-    let [articles, setArticles] = useState(null);
-    let [AmountPurchase, setAmountPurchase] = useState(4);
+    // let [articles, setArticles] = useState(null);
+    let {articles} = useSelector(state => state.articles);
+    console.log(articles);
+    let {totalPrice} = useSelector(state => state.totalPrice);
+    let dispatch = useDispatch();
+    // let [AmountPurchase, setAmountPurchase] = useState(4);
     let [cannotBeBought, setCannotBeBought] = useState(false);
     let [modalShown, setModalShown] = useState(false);
     let [loading, setLoading] = useState(false);
@@ -33,7 +40,8 @@ function BuffetBuilder() {
     useEffect(() => {
         axios.get('/articles.json')
         .then(response => {
-            setArticles(response.data);
+            // setArticles(response.data);
+            dispatch(ADDARTICLES(response.data));
             setSpin(false);
         }).catch(error => {
             setError(true);
@@ -59,9 +67,11 @@ function BuffetBuilder() {
         }
 
         updatedArticles[type] = updatedCount;
-        setArticles(updatedArticles);
-        const amount = AmountPurchase;
-        setAmountPurchase(amount + ARTICLES_PRICES[type]);
+        // setArticles(updatedArticles);
+        dispatch(ADDARTICLES(updatedArticles));
+        const startingAmount = 4;
+        // setAmountPurchase(amount + ARTICLES_PRICES[type]);
+        dispatch(ADDTOTALPRICE((startingAmount + ARTICLES_PRICES[type])));
         setCannotBeBought(false);
         updatePurchasable(updatedArticles);
     }
@@ -74,9 +84,11 @@ function BuffetBuilder() {
         }
 
         updatedArticles[type] = updatedCount;
-        setArticles(updatedArticles);
-        const amount = AmountPurchase;
-        setAmountPurchase(amount - ARTICLES_PRICES[type]);
+        // setArticles(updatedArticles);
+        dispatch(ADDARTICLES(updatedArticles));
+        const startingAmount = 4;
+        // setAmountPurchase(amount - ARTICLES_PRICES[type]);
+        dispatch(ADDTOTALPRICE((startingAmount - ARTICLES_PRICES[type])));
         updatePurchasable(updatedArticles);
     }
     
@@ -90,7 +102,7 @@ function BuffetBuilder() {
 
     const sendOrder = () => {
         // // alert('Order sent!');
-        navigate('/checkout', {state: {arts:{...articles}, AmountPurchase}})
+        navigate('/checkout')
     }
 
    
@@ -104,12 +116,12 @@ function BuffetBuilder() {
         if(articles) {
         buffet = (
             <Aux>
-        <Buffet articles={articles}/>
+        <Buffet/>
         <BuildControls
             addArticle={addArticleHandler}
             removeArticle={removeArticleHandler}
             articles={articles}
-            amountOfPurchase={AmountPurchase}
+            amountOfPurchase={totalPrice}
             cannotBeBought={cannotBeBought}
             order={showModal}
         /></Aux>)
@@ -117,8 +129,8 @@ function BuffetBuilder() {
         
         modalInner = (
             <OrderSummary
-                articles={articles} 
-                totalPrice={AmountPurchase}
+                // articles={articles} 
+                // totalPrice={totalPrice}
                 closeModal={closeModal}
                 sendOrder={sendOrder}
             />

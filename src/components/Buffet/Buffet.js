@@ -1,13 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import classes from './Buffet.module.css';
 import BuffetArticle from "./BuffetArticle/BuffetArticle";
 
-const buffet = (props) => {
+const Buffet = (props) => {
+    let { articles } = useSelector(state => state.articles);
     // there is need to check these props passing here and understand where the error is
 
-    let transformedArticles = Object.keys(props.articles)
+    let transformedArticles = Object.keys(articles)
     .map(art => {
-        return [...Array(props.articles[art])]
+        return [...Array(articles[art])]
         .map((_, i) => {
             return <BuffetArticle key={art + i} type={art}/>
         });
@@ -37,4 +39,4 @@ const buffet = (props) => {
     );
 }
 
-export default buffet;
+export default Buffet;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import Buffet from '../../components/Buffet/Buffet';
 import Button from '../../components/UI/Button/Button';
@@ -6,22 +7,25 @@ import Button from '../../components/UI/Button/Button';
 import ContactData from './ContactData/ContactData';
 
 const Checkout = () => {
-    const [articles, setArticles] = useState(null);
+    let { articles } = useSelector(state => state.articles);
+    // let { totalPrice} = useSelector(state => state.totalPrice);
+
+    // const [articles, setArticles] = useState(null);
     const loc = useLocation();
     const navigate = useNavigate();
     
     
-    useEffect(() => {
-        const arts ={...loc.state.arts};
-        setArticles(arts);
-    },[loc.state.arts])
+    // useEffect(() => {
+    //     const arts ={...loc.state.arts};
+    //     setArticles(arts);
+    // },[loc.state.arts])
 
     const cancelBtnHandler = () => {
         navigate('/');
     }
 
     const continueBtnHandler = () => {
-        navigate('/checkout/data', {state: {...loc.state}});
+        navigate('/checkout/data');
     }
 
     return (

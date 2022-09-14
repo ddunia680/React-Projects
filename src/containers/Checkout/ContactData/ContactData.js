@@ -9,9 +9,14 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './ContactData.module.css';
 import Input from '../../../components/UI/Input/Input';
 import { element } from 'prop-types';
+import { useSelector } from 'react-redux';
 
 
 function ContactData() {
+    let { articles } = useSelector(state => state.articles);
+    let { totalPrice } = useSelector(state => state.totalPrice);
+
+
     let [orderForm, setOrderForm] = useState({
         name: {
             elementType: 'input',
@@ -99,8 +104,8 @@ function ContactData() {
         },
     });
     let [formIsValid, setFormValidity] = useState(false);
-    let [articles, setArticles] = useState(null);
-    let [AmountPurchase, setAmountPurchase] = useState(4);
+    // let [articles, setArticles] = useState(null);
+    // let [AmountPurchase, setAmountPurchase] = useState(4);
     // let [cannotBeBought, setCannotBeBought] = useState(false);
     let [loading, setLoading] = useState(false);
     // let [error, setError] = useState(false);
@@ -115,14 +120,14 @@ function ContactData() {
     let loc = useLocation();
     let navigate = useNavigate();
     
-    let price = +loc.state.AmountPurchase;
+    // let price = +loc.state.AmountPurchase;
 
 
-    useEffect(() => {
-        let arts = {...loc.state.arts};
-        setArticles(arts);
-        setAmountPurchase(price);
-    }, [loc.state.arts, price])
+    // useEffect(() => {
+    //     let arts = {...loc.state.arts};
+    //     setArticles(arts);
+    //     setAmountPurchase(price);
+    // }, [loc.state.arts, price])
 
 
     const sendDataToBack = (event) => {
@@ -139,7 +144,7 @@ function ContactData() {
 
         const order = {
             articles: articles,
-            price: AmountPurchase,
+            price: totalPrice,
             orderData: {
                 ...customerInfo
             } 
