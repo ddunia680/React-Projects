@@ -112,19 +112,25 @@ function BuffetBuilder() {
             error? 
                 <p style={{marginTop: '10vh'}}>The articles cannot be loaded</p> : 
                 <Spinner/>
+        
+        if(Spin) {
+            buffet = <Spinner/>
+        } else {
+            if(articles) {
+                buffet = (
+                    <Aux>
+                        <Buffet/>
+                        <BuildControls
+                            addArticle={addArticleHandler}
+                            removeArticle={removeArticleHandler}
+                            articles={articles}
+                            amountOfPurchase={totalPrice}
+                            cannotBeBought={cannotBeBought}
+                            order={showModal}
+                        /></Aux>)
+                }
 
-        if(articles) {
-        buffet = (
-            <Aux>
-        <Buffet/>
-        <BuildControls
-            addArticle={addArticleHandler}
-            removeArticle={removeArticleHandler}
-            articles={articles}
-            amountOfPurchase={totalPrice}
-            cannotBeBought={cannotBeBought}
-            order={showModal}
-        /></Aux>)
+        
 
         
         modalInner = (
