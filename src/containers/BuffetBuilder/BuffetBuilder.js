@@ -24,7 +24,6 @@ const ARTICLES_PRICES = {
 function BuffetBuilder() {
     // let [articles, setArticles] = useState(null);
     let {articles} = useSelector(state => state.articles);
-    console.log(articles);
     let {totalPrice} = useSelector(state => state.totalPrice);
     let dispatch = useDispatch();
     // let [AmountPurchase, setAmountPurchase] = useState(4);
