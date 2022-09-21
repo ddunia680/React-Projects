@@ -13,7 +13,6 @@ class Orders extends Component {
    componentDidMount() {
         axios.get('/orders.json')
         .then(response => {
-            console.log(response.data);
             const fetchedOrders = [];
             for (let key in response.data) {
                 fetchedOrders.push({
@@ -21,7 +20,6 @@ class Orders extends Component {
                 id: key});
             }
             this.setState({loading: false, orders: fetchedOrders});
-            console.log(this.state.orders);
 
         }).catch(error => {
             console.log(error);
@@ -39,7 +37,6 @@ class Orders extends Component {
     //         })
     //     )
     // }
-
     render() {
         let ToDisplay = <Spinner/>
         if(!this.state.loading) {

@@ -9,12 +9,16 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './ContactData.module.css';
 import Input from '../../../components/UI/Input/Input';
 import { element } from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { sendArticles } from '../../../store/reducers/articles';
+import { ADDTOTALPRICE } from '../../../store/reducers/totalPrice';
 
 
 function ContactData() {
     let { articles } = useSelector(state => state.articles);
     let { totalPrice } = useSelector(state => state.totalPrice);
+    let statusSend = useSelector(state => state.articles.statusSend);
+    let dispatch = useDispatch();
 
 
     let [orderForm, setOrderForm] = useState({
@@ -123,11 +127,13 @@ function ContactData() {
     // let price = +loc.state.AmountPurchase;
 
 
-    // useEffect(() => {
-    //     let arts = {...loc.state.arts};
-    //     setArticles(arts);
-    //     setAmountPurchase(price);
-    // }, [loc.state.arts, price])
+    useEffect(() => {
+        if(statusSend === 'succeeded') {
+            dispatch(ADDTOTALPRICE(0));
+            navigate('/');
+
+        }
+    })
 
 
     const sendDataToBack = (event) => {
@@ -150,14 +156,15 @@ function ContactData() {
             } 
         }
 
-        axios.post('/orders.json', order)
-        .then(response => {
-            setLoading(false);
-            navigate('/');
-        })
-        .catch(error => {
-            setLoading(false);
-        });
+        dispatch(sendArticles(order));
+        // axios.post('/orders.json', order)
+        // .then(response => {
+        //     setLoading(false);
+        //     navigate('/');
+        // })
+        // .catch(error => {
+        //     setLoading(false);
+        // });
     }
 
     const checkValidity = (value, rules) => {
@@ -202,7 +209,7 @@ function ContactData() {
         for(inputIdentifier in updatedOrders) {
             formValid = updatedOrders[inputIdentifier].valid && formValid
         }
-        console.log(formValid);
+        // console.log(formValid);
         setFormValidity(formValid);
         setOrderForm(updatedOrders);
     }

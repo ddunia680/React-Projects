@@ -10,8 +10,9 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { ADDARTICLES } from "../../store/reducers/articles";
+import { ADDARTICLES, SETSTATUS } from "../../store/reducers/articles";
 import { ADDTOTALPRICE } from "../../store/reducers/totalPrice";
+import { getArticles } from "../../store/reducers/articles";
 
 const ARTICLES_PRICES = {
     rice:12,
@@ -25,6 +26,7 @@ function BuffetBuilder() {
     // let [articles, setArticles] = useState(null);
     let {articles} = useSelector(state => state.articles);
     let {totalPrice} = useSelector(state => state.totalPrice);
+    let statusGet = useSelector(state => state.articles.statusGet);
     let dispatch = useDispatch();
     // let [AmountPurchase, setAmountPurchase] = useState(4);
     let [cannotBeBought, setCannotBeBought] = useState(false);
@@ -37,16 +39,25 @@ function BuffetBuilder() {
 
 
     useEffect(() => {
-        axios.get('/articles.json')
-        .then(response => {
-            // setArticles(response.data);
-            dispatch(ADDARTICLES(response.data));
-            setSpin(false);
-        }).catch(error => {
-            setError(true);
-        });
+        dispatch(SETSTATUS('idle'));
+        dispatch(getArticles());
+        // axios.get('/articles.json')
+        // .then(response => {
+        //     // setArticles(response.data);
+        //     dispatch(ADDARTICLES(response.data));
+        //     setSpin(false);
+        // }).catch(error => {
+        //     setError(true);
+        // });
         
     }, [])
+
+    useEffect(() => {
+        if(statusGet === 'succeeded') {
+        setSpin(false);
+    }
+    }, [statusGet])
+    
 
     const updatePurchasable = (arts) => {
         const sum = Object.keys(arts)
