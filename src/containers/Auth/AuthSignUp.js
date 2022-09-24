@@ -134,7 +134,7 @@ function Auth(props) {
     return (
         <div className={classes.auth2}>
             <h2>SIGN UP</h2>
-            {error ? <p style={{color: 'red'}}>Invalid data entered or not yet signed up</p>: null}
+            {error ? <p style={{color: 'red'}}>Invalid data entered or already signed up</p>: null}
             {form}
             <p><b>Already Sign Up ? </b> 
                 <Button 
