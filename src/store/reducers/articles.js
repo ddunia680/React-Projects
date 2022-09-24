@@ -3,8 +3,15 @@ import axios from '../../axios-orders';
 
 export const sendArticles = createAsyncThunk(
     'data/sendArticles',
-    order => {
-        return axios.post('/orders.json', order)
+    orderData => {
+        const orderD = orderData.order;
+        const token = orderData.token;
+        const userId = orderData.userId
+        const order = {
+            ...orderD,
+            userId: userId
+        }
+        return axios.post('/orders.json?auth=' + token , order)
         .then(response => response.data)
     }
 )
@@ -23,6 +30,7 @@ export const articlesSlice = createSlice({
         articles: null,
         statusSend: 'idle',
         statusGet: 'idle',
+        settingTable: false,
         error: ''
     },
 
@@ -35,6 +43,7 @@ export const articlesSlice = createSlice({
                 rice: action.payload.rice,
                 ships: action.payload.ships
             }
+            state.settingTable = true
         },
         SETSTATUS: (state, action) => {
             state.statusSend = action.payload

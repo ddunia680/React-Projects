@@ -11,7 +11,7 @@ import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { ADDARTICLES, SETSTATUS } from "../../store/reducers/articles";
-import { ADDTOTALPRICE } from "../../store/reducers/totalPrice";
+import { ADDTOTALPRICE, RESETTOTALPRICE } from "../../store/reducers/totalPrice";
 import { getArticles } from "../../store/reducers/articles";
 
 const ARTICLES_PRICES = {
@@ -39,6 +39,7 @@ function BuffetBuilder() {
 
 
     useEffect(() => {
+        dispatch(RESETTOTALPRICE());
         dispatch(SETSTATUS('idle'));
         dispatch(getArticles());
         // axios.get('/articles.json')
@@ -115,6 +116,10 @@ function BuffetBuilder() {
         navigate('/checkout')
     }
 
+    const beforeSigning = () => {
+        navigate('/auth');
+    }
+
    
         let modalInner = null;
 
@@ -136,6 +141,7 @@ function BuffetBuilder() {
                             articles={articles}
                             amountOfPurchase={totalPrice}
                             cannotBeBought={cannotBeBought}
+                            beforeSignin={beforeSigning}
                             order={showModal}
                         /></Aux>)
                 }

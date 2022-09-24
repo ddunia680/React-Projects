@@ -9,10 +9,14 @@ export const totalPriceSlice = createSlice({
     reducers: {
         ADDTOTALPRICE: (state, action) => {
             state.totalPrice = action.payload;
+        },
+
+        RESETTOTALPRICE: (state, action) => {
+            state.totalPrice = 0;
         }
     }
 });
 
-export const { ADDTOTALPRICE } = totalPriceSlice.actions;
+export const { ADDTOTALPRICE, RESETTOTALPRICE } = totalPriceSlice.actions;
 
 export default totalPriceSlice.reducer;

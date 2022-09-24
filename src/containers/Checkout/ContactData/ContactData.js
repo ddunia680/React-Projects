@@ -18,6 +18,8 @@ function ContactData() {
     let { articles } = useSelector(state => state.articles);
     let { totalPrice } = useSelector(state => state.totalPrice);
     let statusSend = useSelector(state => state.articles.statusSend);
+    let token = useSelector(state => state.authenticate.token);
+    let userId = useSelector(state => state.authenticate.userId);
     let dispatch = useDispatch();
 
 
@@ -153,10 +155,15 @@ function ContactData() {
             price: totalPrice,
             orderData: {
                 ...customerInfo
-            } 
+            }
+        }
+        const orderToSend = {
+            order: order,
+            token: token,
+            userId: userId
         }
 
-        dispatch(sendArticles(order));
+        dispatch(sendArticles(orderToSend));
         // axios.post('/orders.json', order)
         // .then(response => {
         //     setLoading(false);

@@ -1,6 +1,7 @@
 import React from "react";
 import classes from './BuildControls.module.css';
 import BuildControl from "./BuildControl/BuildControl";
+import { useSelector } from "react-redux";
 
 const controls = [
     {label: 'Rice', type: 'rice'},
@@ -10,7 +11,8 @@ const controls = [
     {label: 'Fruits', type: 'fruits'}
 ];
 
-const buildControls = (props) => {
+const BuildControls = (props) => {
+    let token = useSelector(state => state.authenticate.token);
     return (
         <div className={classes.BuffetBuilder}>
             <p className={classes.amount}>Total Price: <strong>{props.amountOfPurchase} $</strong></p>
@@ -30,9 +32,9 @@ const buildControls = (props) => {
             <button 
                 className={classes.OrderButton} 
                 disabled={!props.cannotBeBought}
-                onClick={props.order}>Order Now</button>
+                onClick={token ? props.order : props.beforeSignin}>{token ? 'Order Now' : 'SIGNIN TO ORDER '}</button>
         </div>
     );
 }
 
-export default buildControls;
+export default BuildControls;
