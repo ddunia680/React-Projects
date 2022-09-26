@@ -2,14 +2,15 @@ import './App.css';
 import BuffetBuilder from './containers/BuffetBuilder/BuffetBuilder';
 import Layout from './containers/hoc/Layout/Layout';
 import { Routes, Route } from 'react-router-dom';
-import Checkout from './containers/Checkout/Checkout';
-import Orders from './containers/Orders/Orders';
-import AuthSignUp from './containers/Auth/AuthSignUp';
-import AuthSignIn from './containers/Auth/AuthSignIn';
+// import Checkout from './containers/Checkout/Checkout';
+// import Orders from './containers/Orders/Orders';
+// import AuthSignUp from './containers/Auth/AuthSignUp';
+// import AuthSignIn from './containers/Auth/AuthSignIn';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { LOGOUT, SETNEWTIMEOUT, SETTOKEN } from './store/reducers/authenticate';
 import Logout from './containers/Auth/Logout/logout';
+import asyncComponent from './containers/hoc/asyncComponent/asyncComponent';
 
 function App() {
   let dispatch = useDispatch();
@@ -32,15 +33,32 @@ function App() {
   useEffect(() => {
     authCheck();
   }, []);
-  
-  
+
+
+  const AsyncLoadCheckout = asyncComponent(() => {
+    return import('./containers/Checkout/Checkout');
+  });
+
+  const AsyncLoadAuthSignIn = asyncComponent(() => {
+    return import('./containers/Auth/AuthSignIn');
+  });
+
+  const AsyncLoadAuthSignUp = asyncComponent(() => {
+    return import('./containers/Auth/AuthSignUp');
+  });
+
+  const AsyncLoadOrders = asyncComponent(() => {
+    return import('./containers/Orders/Orders');
+  });
 
   let authentComponent = null;
   if(signinCase) {
-    authentComponent = <AuthSignIn/>
+    authentComponent = <AsyncLoadAuthSignIn/>
   } else {
-    authentComponent = <AuthSignUp/>
+    authentComponent = <AsyncLoadAuthSignUp/>
   }
+
+
 
   let routes;
 
@@ -48,8 +66,8 @@ function App() {
     routes = (
       <Routes>
             <Route path='/' element={<BuffetBuilder/>}/>
-            <Route path='/checkout/*' element={<Checkout/>}/>
-            <Route path='/orders' element={<Orders/>}/>
+            <Route path='/checkout/*' element={<AsyncLoadCheckout/>}/>
+            <Route path='/orders' element={<AsyncLoadOrders/>}/>
             <Route path='/auth' element={authentComponent}/>
             <Route path='/logout' element={<Logout/>} />
             <Route path='/*' element={<BuffetBuilder/>}/>

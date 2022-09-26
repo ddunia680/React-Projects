@@ -3,6 +3,7 @@ import Button from '../../../components/UI/Button/Button';
 import axios from '../../../axios-orders';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import { checkValidity } from '../../hoc/utility/utility';
 
 
 
@@ -174,19 +175,6 @@ function ContactData() {
         // });
     }
 
-    const checkValidity = (value, rules) => {
-        let isValid = true;
-
-        if(rules.required ) {
-            isValid = value.trim() !== '';
-        }
-
-        if(rules.minLength) {
-            isValid = value.length >= rules.minLength;
-        }
-
-        return isValid;
-    }
 
     let formElementArray = [];
     for(let key in orderForm) {

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CLEARERROR, sendSignUpReq } from '../../store/reducers/signUp';
 import { SWITCHCASE } from '../../store/reducers/authenticate';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import { checkValidity } from '../hoc/utility/utility';
 
 function Auth(props) {
     let dispatch = useDispatch();
@@ -42,24 +43,6 @@ function Auth(props) {
             touched: false
         }
     });
-
-    const checkValidity = (value, rules) => {
-        let isValid = true;
-
-        if(rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if(rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if(rules.isEmail) {
-            let pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-            isValid = pattern.test(value) && isValid;
-        }
-        return isValid;
-    }
 
     const sendData = (event) => {
         event.preventDefault();

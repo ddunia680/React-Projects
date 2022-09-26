@@ -9,7 +9,6 @@ export const sendSignUpReq = createAsyncThunk('singup', (authData) => {
     }
     return axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBBZ2WzweQSURC2RsURAhfU0Zym-ikuDkE', authentData)
     .then(response => { 
-        console.log(response.data);
         return response.data
     });
 });
