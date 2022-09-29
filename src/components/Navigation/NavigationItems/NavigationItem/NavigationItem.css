@@ -22,8 +22,8 @@
 .NavigationItem a:hover,
 .NavigationItem a:active,
 .NavigationItem a.active {
-    color: rgb(65, 56, 56);
-    background-color: rgb(167, 160, 160);
+    color: rgb(232, 205, 205);
+    background-color: rgb(87, 47, 47);
 }
 
 @media (max-width: 500px) {
