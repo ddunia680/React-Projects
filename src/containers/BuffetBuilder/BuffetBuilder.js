@@ -80,9 +80,8 @@ function BuffetBuilder() {
         updatedArticles[type] = updatedCount;
         // setArticles(updatedArticles);
         dispatch(ADDARTICLES(updatedArticles));
-        const startingAmount = 4;
         // setAmountPurchase(amount + ARTICLES_PRICES[type]);
-        dispatch(ADDTOTALPRICE((startingAmount + ARTICLES_PRICES[type])));
+        dispatch(ADDTOTALPRICE(( totalPrice + ARTICLES_PRICES[type])));
         setCannotBeBought(false);
         updatePurchasable(updatedArticles);
     }
@@ -97,9 +96,8 @@ function BuffetBuilder() {
         updatedArticles[type] = updatedCount;
         // setArticles(updatedArticles);
         dispatch(ADDARTICLES(updatedArticles));
-        const startingAmount = 4;
         // setAmountPurchase(amount - ARTICLES_PRICES[type]);
-        dispatch(ADDTOTALPRICE((startingAmount - ARTICLES_PRICES[type])));
+        dispatch(ADDTOTALPRICE((totalPrice - ARTICLES_PRICES[type])));
         updatePurchasable(updatedArticles);
     }
     
