@@ -65,8 +65,8 @@ function App() {
   if(token) {
     routes = (
       <Routes>
-            <Route path='/' element={<BuffetBuilder/>}/>
             <Route path='/checkout/*' element={<AsyncLoadCheckout/>}/>
+            <Route path='/' element={<BuffetBuilder/>}/>
             <Route path='/orders' element={<AsyncLoadOrders/>}/>
             <Route path='/auth' element={authentComponent}/>
             <Route path='/logout' element={<Logout/>} />
@@ -78,6 +78,7 @@ function App() {
       <Routes>
         <Route path='/auth' element={authentComponent}/>
         <Route path='/' element={<BuffetBuilder/>}/>
+        <Route path='/checkout/*' element={<AsyncLoadCheckout/>} />
         <Route path='/*' element={<BuffetBuilder/>}/>
       </Routes>
     )

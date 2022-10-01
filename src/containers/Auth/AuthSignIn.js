@@ -65,16 +65,18 @@ function Auth(props) {
     }
 
     useEffect(() => {
-        if(token !== null) {
+        if(token) {
             if(setting) {
                 navigate('/checkout');
+                console.log('checkout');
                 setLogoutTimeout();
             } else {
                 navigate('/');
+                console.log('buffet-builder');
                 setLogoutTimeout();
             }
         }
-    }, [token]);
+    }, [token, setting]);
 
     const AlterIsSignedHandler = () => {
         dispatch(SWITCHCASE());
